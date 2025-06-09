@@ -152,7 +152,7 @@ function run_test(file, method = :best_response)
         optimize!(model_sd)
 
         if ~is_solved_and_feasible(model_sd)
-            println("Instance is not feasible. Stopping...")
+            println("Instance $file is not feasible. Stopping...")
             break
         end
 
@@ -181,19 +181,19 @@ function run_test(file, method = :best_response)
         follower_obj_hat = value(x_i -> inp[get_x_index(x_i)], f_obj_func)
 
         if abs(response_obj - follower_obj_hat) < 1e-4
-            println("Stopping criterion met")
+            # println("Stopping criterion met")
             break
         end
         ### STOPPING CRITERION ###
 
         Base.GC.gc()
 
-        # log
-        if iter == 1
-            @printf("| %4s | %9s | %12s | %10s |\n", "Iter", "Bound", "Follower Obj", "Violation")
-            @printf("|%s|%s|%s|%s|\n", "-"^6, "-"^11, "-"^14, "-"^12)
-        end
-        @printf("| %4d | % 9.3f | % 12.3f | % 10.3f |\n", iter, objective_value(model_sd), -response_obj, -cut_violation)
+        # # log
+        # if iter == 1
+        #     @printf("| %4s | %9s | %12s | %10s |\n", "Iter", "Bound", "Follower Obj", "Violation")
+        #     @printf("|%s|%s|%s|%s|\n", "-"^6, "-"^11, "-"^14, "-"^12)
+        # end
+        # @printf("| %4d | % 9.3f | % 12.3f | % 10.3f |\n", iter, objective_value(model_sd), -response_obj, -cut_violation)
 
         # Save log data
         push!(log_data, (iter=iter, dual_bound=objective_value(model_sd), follower_obj=-response_obj, violation=-cut_violation))
@@ -212,11 +212,11 @@ for arg in ARGS
         instance = splitext(basename(arg))[1]
 
         for method in [:best_response, :separation]
-            println("Method: $method")
+            # println("Method: $method")
 
             df_fpath = results_dir * instance * "_" * string(method) * ".csv"
             if isfile(df_fpath)
-                println("Results already exist. Skipping...")
+                # println("Results already exist. Skipping...")
             else
                 df = run_test(arg, method)
                 CSV.write(df_fpath, df)
