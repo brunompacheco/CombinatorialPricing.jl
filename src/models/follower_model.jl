@@ -1,6 +1,6 @@
 function add_primal!(model::Model, prob::AbstractProblem)
     x = model[:x]
-    @constraint(model, primal, follower_A(prob) .≤ follower_b(prob))
+    @constraint(model, primal, follower_A(prob) * x .≤ follower_b(prob))
     return
 end
 
