@@ -1,8 +1,9 @@
 using JuMP, Gurobi, CombinatorialPricing, Printf, Random, CSV, DataFrames, Glob, SCIP
 
-const numpairs = 1000
+const numpairs = 10
 const maxiter = 25
 
+Random.seed!(42)
 
 function find_best_response_arc(prob, t_hat, y_hat, sd)
     model_f = follower_model(prob, silent=true)
@@ -105,7 +106,7 @@ function run_test(file, method = :best_response)
 
     # load problem
     if occursin("knapsack", file)
-        prob = read(file, KnapsackProblem)
+        prob = read(file, KnapsackPricing)
         sampler = MaximalKnapsackSampler(prob)
     elseif occursin("maxstab", file)
         prob = read(file, MaxStableSetPricing)
@@ -203,20 +204,23 @@ function run_test(file, method = :best_response)
     return DataFrame(log_data)
 end
 
-Random.seed!(42)
-for file in shuffle!(glob("problems/interdiction-flatten/*.ki"))[3:50]
-    instance = splitext(basename(file))[1]
-    println("Processing instance: $instance")
-    
-    for method in [:best_response, :separation]
-        println("Method: $method")
+results_dir = "results/"
+for arg in ARGS
+    if endswith(arg, ".json")
+        println("Solving instance $arg")
 
-        df_fpath = instance * "_" * string(method) * ".csv"
-        if isfile(df_fpath)
-            println("Results already exist. Skipping...")
-        else
-            df = run_test(file, method)
-            CSV.write(df_fpath, df)
+        instance = splitext(basename(arg))[1]
+
+        for method in [:best_response, :separation]
+            println("Method: $method")
+
+            df_fpath = results_dir * instance * "_" * string(method) * ".csv"
+            if isfile(df_fpath)
+                println("Results already exist. Skipping...")
+            else
+                df = run_test(arg, method)
+                CSV.write(df_fpath, df)
+            end
         end
     end
 end
