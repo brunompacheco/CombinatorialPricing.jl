@@ -6,8 +6,15 @@ Get the upper bounds of the toll prices. The entries corresponding to the toll-f
 function toll_bounds end
 
 """
-    add_primal!(model::Model, prob::PricingProblem)
+    follower_A(prob::PricingProblem) -> Matrix{Float64}
 
-Add the primal constraints to the model. The variables for the selectable items are provided as `x`.
+Get of the follower's constraint matrix. This matrix represents the coefficients of the items in the follower's problem, which is typically a knapsack or similar combinatorial problem.
 """
-function add_primal! end
+function follower_A end
+
+"""
+    follower_b(prob::PricingProblem) -> Vector{Float64}
+
+The right-hand side of the follower's constraints. This is typically the capacity of the knapsack or similar combinatorial problem.
+"""
+function follower_b end

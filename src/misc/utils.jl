@@ -1,7 +1,7 @@
 expand_lift_type(::Type{VariableRef}) = AffExpr
 expand_lift_type(::Type{<:Number}) = Float64
 
-function expand_t(t::DenseAxisArray{T}, prob::PricingProblem) where T
+function expand_t(t::DenseAxisArray{T}, prob::AbstractProblem) where T
     L = expand_lift_type(T)
     n, i1 = num_items(prob), collect(tolled(prob))
     tfull = Vector{L}(zeros(n))
@@ -9,7 +9,7 @@ function expand_t(t::DenseAxisArray{T}, prob::PricingProblem) where T
     return tfull
 end
 
-expand_t(t::AbstractVector, ::PricingProblem) = t
+expand_t(t::AbstractVector, ::AbstractProblem) = t
 
 make_ct(t, prob::PricingProblem) = base_costs(prob) .+ expand_t(t, prob)
 

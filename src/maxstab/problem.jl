@@ -22,6 +22,11 @@ base_values(prob::MaxStableSetPricing) = prob.base_values
     return g
 end
 
+follower_A(prob::MaxStableSetPricing) = incidence_matrix(graph(prob))
+follower_b(prob::MaxStableSetPricing) = ones(ne(graph(prob)))
+
+toll_bounds(prob::MaxStableSetPricing) = prob.base_values
+
 # Pretty print
 function Base.show(io::IO, prob::MaxStableSetPricing)
     i1 = length(prob.tolled)

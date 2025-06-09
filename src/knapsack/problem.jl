@@ -16,6 +16,11 @@ weights(prob::KnapsackPricing) = prob.weights
 capacity(prob::KnapsackPricing) = prob.capacity
 density(prob::KnapsackPricing) = prob.base_values ./ prob.weights
 
+follower_A(prob::KnapsackPricing) = weights(prob)'
+follower_b(prob::KnapsackPricing) = capacity(prob)
+
+toll_bounds(prob::KnapsackPricing) = prob.base_values
+
 # Pretty print
 function Base.show(io::IO, prob::KnapsackPricing)
     i1 = length(prob.tolled)

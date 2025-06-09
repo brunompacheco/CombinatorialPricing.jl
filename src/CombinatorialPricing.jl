@@ -36,6 +36,7 @@ include("dp_model/unique.jl")
 include("dp_model/selection_diagram.jl")
 
 include("models/base_model.jl")
+include("models/base_follower.jl")
 include("models/follower_model.jl")
 include("models/trivial_solutions.jl")
 include("models/heuristic.jl")
@@ -50,20 +51,17 @@ include("samplers/bilevel_feasible.jl")
 
 include("knapsack/problem.jl")
 include("knapsack/probgen.jl")
-include("knapsack/model.jl")
 include("knapsack/dp_model.jl")
 include("knapsack/maximal_sampler.jl")
 
 include("maxstab/problem.jl")
 include("maxstab/probgen.jl")
-include("maxstab/model.jl")
 include("maxstab/dp_model.jl")
 include("maxstab/maximal_sampler.jl")
 include("maxstab/analysis.jl")
 
 include("mincover/problem.jl")
 include("mincover/probgen.jl")
-include("mincover/model.jl")
 include("mincover/dp_model.jl")
 include("mincover/minimal_sampler.jl")
 
@@ -71,7 +69,6 @@ include("interdiction/problem.jl")
 include("interdiction/dp_model.jl")
 include("interdiction/maximal_sampler.jl")
 include("interdiction/base_model.jl")
-include("interdiction/follower_model.jl")
 
 export AbstractProblem, PricingProblem, num_items, tolled, toll_free, base_costs, generate
 export toll_bounds, add_primal!

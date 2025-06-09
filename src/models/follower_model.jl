@@ -1,14 +1,19 @@
-function follower_model(prob::PricingProblem; silent=false, threads=nothing)
+function add_primal!(model::Model, prob::AbstractProblem)
+    x = model[:x]
+    @constraint(model, primal, follower_A(prob) .≤ follower_b(prob))
+    return
+end
+
+function follower_model(prob::AbstractProblem; silent=false, threads=nothing)
     model = blank_model(; silent, threads)
     model[:prob] = prob
 
     n = num_items(prob)
-    c = base_costs(prob)
 
     @variable(model, x[i=1:n], Bin)
 
     # Follower objective
-    @objective(model, Min, c' * x)
+    @objective(model, Min, follower_c(prob)' * x)
 
     # Stable set constraints
     add_primal!(model, prob)
@@ -16,9 +21,7 @@ function follower_model(prob::PricingProblem; silent=false, threads=nothing)
     return model
 end
 
-function set_toll!(model::Model, prob::PricingProblem, toll)
+function set_toll!(model::Model, prob::AbstractProblem, toll)
     x = model[:x]
-    c = base_costs(prob)
-    t = expand_t(toll, prob)
-    @objective(model, Min, (c + t)' * x)
+    @objective(model, Min, ct(toll, prob)' * x)
 end
