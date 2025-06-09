@@ -3,7 +3,7 @@ module CombinatorialPricing
 using Printf, UnicodeGraphics
 using DataStructures, SparseArrays
 using JSON, Unmarshal, UnPack, Memoization
-using JuMP, Gurobi
+using JuMP
 using Graphs
 using Random, Distributions, StatsBase
 using Parameters: @with_kw

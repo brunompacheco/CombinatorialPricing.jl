@@ -12,7 +12,7 @@ function add_cutting_plane_callback!(cutgen::Function, model; threads=nothing, r
     reset_fn = () -> nothing
     if reset_follower
         # Only applied to Gurobi optimizer
-        reset_fn = () -> GRBreset(unsafe_backend(model[:follower]), 0)
+        # reset_fn = () -> GRBreset(unsafe_backend(model[:follower]), 0)
     end
 
     function lazy_callback(cb_data)

@@ -1,4 +1,4 @@
-using JuMP, Gurobi, CombinatorialPricing, Printf, Random
+using JuMP, CombinatorialPricing, Printf, Random
 
 Random.seed!(42)
 

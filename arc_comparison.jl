@@ -1,7 +1,7 @@
-using JuMP, Gurobi, CombinatorialPricing, Printf, Random, CSV, DataFrames, Glob, SCIP
+using JuMP, CombinatorialPricing, Printf, Random, CSV, DataFrames, Glob, SCIP
 
-const numpairs = 10
-const maxiter = 25
+const numpairs = 100
+const maxiter = 100
 
 Random.seed!(42)
 
