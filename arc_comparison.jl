@@ -1,7 +1,7 @@
 using JuMP, CombinatorialPricing, Printf, Random, CSV, DataFrames, Glob, SCIP
 
-const numpairs = 100
-const maxiter = 100
+const numpairs = 1000
+const maxiter = 25
 
 Random.seed!(42)
 
