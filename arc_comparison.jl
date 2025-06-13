@@ -117,7 +117,7 @@ function solve_separation_extended(prob, t_hat, y_hat, sd; relaxed=false)
     set_silent(model_sep2)
     optimize!(model_sep2)
 
-    selected_target_arcs = [a for a in sd.arcs if (a.dst == sink_node(sd)) && (value(υ[a]) > 0.5)]
+    selected_target_arcs = [a for a in sd.arcs if (a.dst == sink_node(sd)) && (value(υ[a]) > 1e-3)]
     @assert relaxed || (length(selected_target_arcs) == 1) "Expected exactly one target arc, but found $(length(selected_target_arcs))"
     u_star = first(selected_target_arcs).src
     ι_star = CombinatorialPricing.convert_x_to_set(round.(Int, value.(ι)))
@@ -217,10 +217,6 @@ function run_test(file, method = :best_response)
         m = Model()
         @variable(m, x[i=1:num_items(prob)], Bin)
         f_obj_func = CombinatorialPricing.ct(t_hat, prob)' * x
-        function get_x_index(var)
-            m = match(r"\[(\d+)\]", name(var))
-            return parse(Int, m.captures[1])
-        end
         inp = Dict(i => value(x_hat[i]) for i in 1:num_items(prob))
         follower_obj_hat = value(x_i -> inp[get_x_index(x_i)], f_obj_func)
 
@@ -267,7 +263,7 @@ end
 
 results_dir = "results/"
 for arg in ARGS
-    if endswith(arg, ".json")
+    if endswith(arg, ".json") || endswith(arg, ".ki")
         println("Solving instance $arg")
 
         instance = splitext(basename(arg))[1]
