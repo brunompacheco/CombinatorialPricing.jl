@@ -261,7 +261,7 @@ function run_test(file, method = :best_response)
     return DataFrame(log_data)
 end
 
-results_dir = "results/"
+results_dir = "results_SD/"
 for arg in ARGS
     if endswith(arg, ".json") || endswith(arg, ".ki")
         println("Solving instance $arg")
