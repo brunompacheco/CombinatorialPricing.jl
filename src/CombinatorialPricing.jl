@@ -2,12 +2,11 @@ module CombinatorialPricing
 
 using Printf, UnicodeGraphics
 using DataStructures, SparseArrays
-using JSON, Unmarshal, UnPack, Memoization
+using JSON, UnPack, Memoization
 using JuMP, Gurobi
 using Graphs
 using Random, Distributions, StatsBase
 using Parameters: @with_kw
-using GraphPlot, Colors
 using DataFrames
 
 using JuMP: JuMP.Containers.DenseAxisArray
@@ -59,7 +58,6 @@ include("maxstab/probgen.jl")
 include("maxstab/model.jl")
 include("maxstab/dp_model.jl")
 include("maxstab/maximal_sampler.jl")
-include("maxstab/analysis.jl")
 
 include("mincover/problem.jl")
 include("mincover/probgen.jl")
@@ -109,6 +107,7 @@ export MaximalKnapsackSampler
 export MaxStableSetPricing
 export graph, base_values
 export MaximalStableSetSampler
+function plot_solution end
 export plot_solution
 
 export MinSetCoverPricing
