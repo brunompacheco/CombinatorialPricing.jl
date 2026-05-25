@@ -56,7 +56,21 @@ function Base.write(filename::AbstractString, prob::PricingProblem)
 end
 
 ## Read from file
+function _json_problem_value(::Type{T}, value) where {T}
+    if T <: BitSet
+        return BitSet(Int.(value))
+    elseif T <: AbstractVector
+        return [_json_problem_value(eltype(T), item) for item in value]
+    elseif T <: Tuple
+        return T(ntuple(i -> _json_problem_value(fieldtype(T, i), value[i]), fieldcount(T)))
+    else
+        return convert(T, value)
+    end
+end
+
 function Base.read(filename::AbstractString, P::Type{<:PricingProblem})
     str = read(filename, String)
-    return unmarshal(P, JSON.parse(str)["problem"])
+    data = JSON.parse(str)["problem"]
+    values = (_json_problem_value(fieldtype(P, field), data[string(field)]) for field in fieldnames(P))
+    return P(values...)
 end
