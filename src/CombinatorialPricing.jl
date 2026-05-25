@@ -108,6 +108,12 @@ export MaxStableSetPricing
 export graph, base_values
 export MaximalStableSetSampler
 function plot_solution end
+function plot_solution(::MaxStableSetPricing, args...; kwargs...)
+    throw(ArgumentError(
+        "plot_solution for MaxStableSetPricing requires the optional GraphPlot/Colors plotting extension. " *
+        "Please add and load GraphPlot and Colors to use plot_solution."
+    ))
+end
 export plot_solution
 
 export MinSetCoverPricing
